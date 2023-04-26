@@ -1,0 +1,5 @@
+time="2023-04-23 21:12:31" level=info Agent=PostmanRuntime/7.32.2 DataSize=69 HostName=tianjiu Ip="::1" Method=POST Path=/api/v1/upload SpendTime="0 ms" status=200
+time="2023-04-23 21:36:46" level=info Agent=PostmanRuntime/7.32.2 DataSize=51 HostName=tianjiu Ip="::1" Method=POST Path=/api/v1/user/add SpendTime="0 ms" status=200
+time="2023-04-23 21:36:53" level=info Agent=PostmanRuntime/7.32.2 DataSize=67 HostName=tianjiu Ip="::1" Method=POST Path=/api/v1/user/add SpendTime="0 ms" status=200
+time="2023-04-23 21:37:04" level=info Agent=PostmanRuntime/7.32.2 DataSize=48 HostName=tianjiu Ip="::1" Method=POST Path=/api/v1/user/add SpendTime="1 ms" status=200
+time="2023-04-23 21:37:09" level=info Agent=PostmanRuntime/7.32.2 DataSize=64 HostName=tianjiu Ip="::1" Method=POST Path=/api/v1/user/add SpendTime="0 ms" status=200
