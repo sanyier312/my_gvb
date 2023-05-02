@@ -32,19 +32,27 @@ func GetCategory(c *gin.Context) {
 	pageSize, _ := strconv.Atoi(c.Query("pagesize"))
 	pageNum, _ := strconv.Atoi(c.Query("pagenum"))
 
-	if pageSize == 0 {
-		pageSize = -1
+	switch {
+	case pageSize >= 100:
+		pageSize = 100
+	case pageSize <= 0:
+		pageSize = 10
 	}
+
 	if pageNum == 0 {
-		pageNum = -1
+		pageNum = 1
 	}
-	data := models.GetCategory(pageSize, pageNum)
-	code = errmsg.SUCCSE
-	c.JSON(http.StatusOK, gin.H{
-		"status": code,
-		"data":   data,
-		"msg":    errmsg.GetErrMsg(code),
-	})
+
+	data, total := models.GetCategory(pageSize, pageNum)
+	code := errmsg.SUCCSE
+	c.JSON(
+		http.StatusOK, gin.H{
+			"status":  code,
+			"data":    data,
+			"total":   total,
+			"message": errmsg.GetErrMsg(code),
+		},
+	)
 }
 
 // 编辑种类

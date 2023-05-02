@@ -145,3 +145,32 @@ func CheckLogin(username string, password string) (User, int) {
 	return user, errmsg.SUCCSE
 
 }
+
+// 前台登录验证
+func CheckLoginFront(username string, password string) (User, int) {
+	var user User
+	var PasswordErr error
+	db.Where("username = ?", username).First(&user)
+	PasswordErr = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)) // 密码验证
+	if user.ID == 0 {
+		return user, errmsg.ERROR_USER_NOT_EXIST
+	}
+	if PasswordErr != nil {
+		return user, errmsg.ERROR_PASSWORD_WRONG
+	}
+	return user, errmsg.SUCCSE
+
+}
+
+// 修改密码
+func ChangePassword(id int, data *User) int {
+	var user User
+	var maps = make(map[string]interface{})
+	maps["password"] = ScryptPw(data.Password)
+
+	err = db.Model(&user).Where("id = ?", id).Updates(maps).Error
+	if err != nil {
+		return errmsg.ERROR
+	}
+	return errmsg.SUCCSE
+}

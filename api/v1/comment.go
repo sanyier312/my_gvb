@@ -119,8 +119,8 @@ func CheckComment(c *gin.Context) {
 	})
 }
 
-// UncheckComment 撤下评论
-func UnCheckComment(c *gin.Context) {
+// UncheckComment 撤下评论审核
+func UncheckComment(c *gin.Context) {
 	var data models.Comment
 	_ = c.ShouldBindJSON(&data)
 	id, _ := strconv.Atoi(c.Param("id"))

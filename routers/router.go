@@ -32,14 +32,14 @@ func InitRouter() {
 	auth.Use(middleware.JwtToken()) //使用中间件
 	{
 		//用户模块的路由接口
-		auth.GET("admin/users", v1.GetUsers)   //查询用户列表
+		auth.GET("users", v1.GetUsers)         //查询用户列表
 		auth.PUT("user/:id", v1.EditUser)      //编辑用户
 		auth.DELETE("user/:id", v1.DeleteUser) //删除用户
 		//作者信息的路由接口
 		auth.GET("admin/profile/:id", v1.GetProfile) //获取作者信息
 		auth.PUT("profile/:id", v1.UpdateProfile)    //更新作者信息
 		//修改密码
-
+		auth.PUT("admin/changePassword/:id", v1.ChangePassword)
 		//分类模块的路由接口
 		auth.GET("admin/category", v1.GetCategory)     //查询分类列表
 		auth.POST("category/add", v1.AddCategory)      //添加分类
@@ -52,10 +52,10 @@ func InitRouter() {
 		auth.PUT("article/:id", v1.EditArticle)           //编辑文章
 		auth.DELETE("article/:id", v1.DeleteArticle)      //删除文章
 		//评论模块的路由接口
-		auth.GET("admin/comment", v1.GetCommentList)       //获取评论列表
-		auth.GET("checkComment/:id", v1.CheckComment)      //通过评论
-		auth.GET("unCheckComment/:id", v1.UnCheckComment)  //撤销评论
-		auth.DELETE("deleteComment/:id", v1.DeleteComment) //删除评论
+		auth.GET("comment/list", v1.GetCommentList)       //获取评论列表
+		auth.PUT("checkcomment/:id", v1.CheckComment)     //通过评论
+		auth.PUT("uncheckcomment/:id", v1.UncheckComment) //撤销评论
+		auth.DELETE("delcomment/:id", v1.DeleteComment)   //删除评论
 		//上传图片
 		auth.POST("upload", v1.UpLoad)
 	}
@@ -66,10 +66,10 @@ func InitRouter() {
 		//用户模块的路由接口
 		router.POST("user/add", v1.AddUser) //添加用户
 		//作者信息的路由接口
-		router.GET("user/profile/:id", v1.GetProfile) //获取作者信息
+		router.GET("profile/:id", v1.GetProfile) //获取作者信息
 
 		//文章模块的路由接口
-		router.GET("articles", v1.GetArticleList)     //查询文章列表
+		router.GET("article", v1.GetArticleList)      //查询文章列表
 		router.GET("article/info/:id", v1.GetArtInfo) //查询指定文章
 		router.GET("article/list/:id", v1.GetCateArt) //查询指定分类的所有文章
 
@@ -77,13 +77,14 @@ func InitRouter() {
 		router.GET("category", v1.GetCategory) //查询分类
 
 		//登录模块的路由接口
-		router.POST("login", v1.Login) //登录
+		router.POST("login", v1.Login)           //后台登录
+		router.POST("loginfront", v1.LoginFront) //前台登录
 
 		//评论模块的路由接口
-		router.POST("comment/add", v1.AddComment)              //添加评论
+		router.POST("addcomment", v1.AddComment)               //添加评论
 		router.GET("comment/info/:id", v1.GetComment)          //获取单个评论
-		router.GET("commentFront/:id", v1.GetCommentListFront) //获取评论列表
-		router.GET("commentCount/:id", v1.GetCommentCount)     //获取评论数
+		router.GET("commentfront/:id", v1.GetCommentListFront) //获取评论列表
+		router.GET("commentcount/:id", v1.GetCommentCount)     //获取评论数
 
 	}
 	r.Run(utils.HttpPort) //运行

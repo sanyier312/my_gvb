@@ -30,13 +30,15 @@ func CreateCategory(data *Category) int {
 }
 
 // 查询分类
-func GetCategory(pageSize int, pageNum int) []Category {
-	var category []Category
-	err = db.Limit(pageSize).Offset((pageNum - 1) * pageSize).Find(&category).Error
+func GetCategory(pageSize int, pageNum int) ([]Category, int64) {
+	var cate []Category
+	var total int64
+	err = db.Find(&cate).Limit(pageSize).Offset((pageNum - 1) * pageSize).Error
+	db.Model(&cate).Count(&total)
 	if err != nil && err != gorm.ErrRecordNotFound {
-		return nil
+		return nil, 0
 	}
-	return category
+	return cate, total
 
 }
 

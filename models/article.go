@@ -40,6 +40,7 @@ func CreateArticle(data *Article) int {
 func GetArtInfo(id int) (Article, int) {
 	var art Article
 	err = db.Where("id = ?", id).Preload("Category").First(&art).Error
+	db.Model(&art).Where("id = ?", id).UpdateColumn("read_count", gorm.Expr("read_count + ?", 1))
 	if err != nil {
 		return art, errmsg.ERROR_ART_NOT_EXIST
 	}

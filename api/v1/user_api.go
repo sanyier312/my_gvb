@@ -126,3 +126,22 @@ func DeleteUser(c *gin.Context) {
 		"msg":  errmsg.GetErrMsg(code),
 	})
 }
+
+// 修改密码
+func ChangePassword(c *gin.Context) {
+	var data models.User
+	id, _ := strconv.Atoi(c.Param("id"))
+	c.ShouldBindJSON(&data)
+
+	code = models.CheckUser(data.Username)
+	if code == errmsg.SUCCSE {
+		models.ChangePassword(id, &data)
+	}
+	if code == errmsg.ERROR_USERNAME_USED {
+		c.Abort()
+	}
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg":  errmsg.GetErrMsg(code),
+	})
+}

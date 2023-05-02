@@ -32,6 +32,20 @@ func Login(c *gin.Context) {
 
 }
 
+// 前台登录
+func LoginFront(c *gin.Context) {
+	var data models.User
+	_ = c.ShouldBindJSON(&data)
+	var code int
+	data, code = models.CheckLoginFront(data.Username, data.Password)
+
+	c.JSON(http.StatusOK, gin.H{"status": code,
+		"data":    data.Username,
+		"id":      data.ID,
+		"message": errmsg.GetErrMsg(code),
+	})
+}
+
 // token生成函数
 func setToken(c *gin.Context, user models.User) {
 	j := middleware.NewJWT()
