@@ -3,12 +3,12 @@ package models
 import "my_gvb/utils/errmsg"
 
 type Profile struct {
-	ID        int    `gorm:"primaryKey" json:"id"`            // ID
-	Name      string `gorm:"type:varchar(20)" json:"name"`    // 名称
-	Desc      string `gorm:"type:varchar(200)" json:"desc"`   // 个人描述
-	Qq        string `gorm:"type:varchar(200)" json:"qq"`     // QQ
-	Wechat    string `gorm:"type:varchar(100)" json:"wechat"` // 微信
-	Github    string `gorm:"type:varchar(200)" json:"github"` // Github
+	ID        int    `gorm:"primaryKey" json:"id"`             // ID
+	Name      string `gorm:"type:varchar(20)" json:"name"`     // 名称
+	Desc      string `gorm:"type:varchar(200)" json:"desc"`    // 个人描述
+	Qqchat    string `gorm:"type:varchar(200)" json:"qq_chat"` // QQ
+	Wechat    string `gorm:"type:varchar(100)" json:"wechat"`  // 微信
+	Weibo     string `gorm:"type:varchar(200)" json:"weibo"`   // Github
 	Bili      string `gorm:"type:varchar(200)" json:"bili"`
 	Email     string `gorm:"type:varchar(200)" json:"email"`      // 邮箱
 	Img       string `gorm:"type:varchar(200)" json:"img"`        // 个人图片

@@ -12,13 +12,13 @@ import (
 func AddArticle(c *gin.Context) {
 	var data models.Article
 	_ = c.ShouldBindJSON(&data) // 绑定数据
-	code = models.CheckArticle(data.Title)
+	code := models.CheckArticle(data.Title)
 	models.CreateArticle(&data)
 
 	c.JSON(http.StatusOK, gin.H{
-		"status": code,
-		"data":   data,
-		"msg":    errmsg.GetErrMsg(code),
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
 	})
 }
 
@@ -28,9 +28,9 @@ func GetArtInfo(c *gin.Context) {
 	data, code := models.GetArtInfo(id)
 
 	c.JSON(http.StatusOK, gin.H{
-		"status": code,
-		"data":   data,
-		"msg":    errmsg.GetErrMsg(code),
+		"status":  code,
+		"data":    data,
+		"message": errmsg.GetErrMsg(code),
 	})
 }
 
@@ -48,10 +48,10 @@ func GetCateArt(c *gin.Context) {
 	data, code, total := models.GetCateArt(id, pageSize, pageNum)
 
 	c.JSON(http.StatusOK, gin.H{
-		"status": code,
-		"data":   data,
-		"msg":    errmsg.GetErrMsg(code),
-		"total":  total,
+		"status":  code,
+		"data":    data,
+		"total":   total,
+		"message": errmsg.GetErrMsg(code),
 	})
 }
 
@@ -97,21 +97,21 @@ func EditArticle(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	_ = c.ShouldBindJSON(&data)
 
-	code = models.EditArticle(id, &data)
+	code := models.EditArticle(id, &data)
 
 	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrMsg(code),
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
 	})
 }
 
 // 删除文章
 func DeleteArticle(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	code = models.DeleteArticle(id)
+	code := models.DeleteArticle(id)
 
 	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrMsg(code),
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
 	})
 }

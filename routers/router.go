@@ -2,14 +2,18 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
-	v1 "my_gvb/api/v1"
+	"my_gvb/api/v1"
 	"my_gvb/middleware"
 	"my_gvb/utils"
 )
 
 func InitRouter() {
 	gin.SetMode(utils.AppMode) //设置运行模式
-	r := gin.New()             //创建路由
+
+	r := gin.New() //创建路由
+	// 设置信任网络 []string
+	// nil 为不计算，避免性能消耗，上线应当设置
+	_ = r.SetTrustedProxies(nil)
 	r.Use(middleware.Logger()) //日志中间件
 	r.Use(gin.Recovery())      //恢复中间件
 	r.Use(middleware.Cors())   //跨域中间件
@@ -35,15 +39,17 @@ func InitRouter() {
 		auth.GET("users", v1.GetUsers)         //查询用户列表
 		auth.PUT("user/:id", v1.EditUser)      //编辑用户
 		auth.DELETE("user/:id", v1.DeleteUser) //删除用户
+		auth.GET("user/:id", v1.GetUserInfo)   //查询指定用户
+		//修改密码
+		auth.PUT("admin/changepw/:id", v1.ChangePassword)
 		//作者信息的路由接口
 		auth.GET("admin/profile/:id", v1.GetProfile) //获取作者信息
 		auth.PUT("profile/:id", v1.UpdateProfile)    //更新作者信息
-		//修改密码
-		auth.PUT("admin/changePassword/:id", v1.ChangePassword)
 		//分类模块的路由接口
 		auth.GET("admin/category", v1.GetCategory)     //查询分类列表
 		auth.POST("category/add", v1.AddCategory)      //添加分类
 		auth.PUT("category/:id", v1.EditCategory)      //编辑分类
+		auth.GET("category/:id", v1.GetCateInfo)       //查询指定分类
 		auth.DELETE("category/:id", v1.DeleteCategory) //删除分类
 		//文章模块的路由接口
 		auth.GET("admin/article/info/:id", v1.GetArtInfo) //查询指定文章
@@ -65,6 +71,7 @@ func InitRouter() {
 	{
 		//用户模块的路由接口
 		router.POST("user/add", v1.AddUser) //添加用户
+
 		//作者信息的路由接口
 		router.GET("profile/:id", v1.GetProfile) //获取作者信息
 
@@ -87,5 +94,5 @@ func InitRouter() {
 		router.GET("commentcount/:id", v1.GetCommentCount)     //获取评论数
 
 	}
-	r.Run(utils.HttpPort) //运行
+	_ = r.Run(utils.HttpPort) //运行
 }

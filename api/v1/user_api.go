@@ -9,13 +9,6 @@ import (
 	"strconv"
 )
 
-var code int
-
-// 查询用户是否存在
-func IsExist(c *gin.Context) {
-
-}
-
 // 添加用户
 func AddUser(c *gin.Context) {
 	var data models.User
@@ -35,7 +28,7 @@ func AddUser(c *gin.Context) {
 		return
 	}
 
-	code = models.CheckUser(data.Username)
+	code := models.CheckUser(data.Username)
 	if code == errmsg.SUCCSE {
 		models.CreateUser(&data)
 	}
@@ -45,7 +38,6 @@ func AddUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": code,
-		"data":   data,
 		"msg":    errmsg.GetErrMsg(code),
 	})
 }
@@ -101,29 +93,28 @@ func GetUsers(c *gin.Context) {
 func EditUser(c *gin.Context) {
 	var data models.User
 	id, _ := strconv.Atoi(c.Param("id"))
-	c.ShouldBindJSON(&data)
+	_ = c.ShouldBindJSON(&data)
 
-	code = models.CheckUser(data.Username)
+	code := models.CheckUpUser(id, data.Username)
 	if code == errmsg.SUCCSE {
 		models.EditUser(id, &data)
 	}
-	if code == errmsg.ERROR_USERNAME_USED {
-		c.Abort()
-	}
+
 	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrMsg(code),
-	})
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
+	},
+	)
 }
 
 // 删除用户
 func DeleteUser(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
-	code = models.DeleteUser(id)
+	code := models.DeleteUser(id)
 
 	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrMsg(code),
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
 	})
 }
 
@@ -133,7 +124,7 @@ func ChangePassword(c *gin.Context) {
 	id, _ := strconv.Atoi(c.Param("id"))
 	c.ShouldBindJSON(&data)
 
-	code = models.CheckUser(data.Username)
+	code := models.CheckUser(data.Username)
 	if code == errmsg.SUCCSE {
 		models.ChangePassword(id, &data)
 	}
@@ -141,7 +132,7 @@ func ChangePassword(c *gin.Context) {
 		c.Abort()
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"code": code,
-		"msg":  errmsg.GetErrMsg(code),
+		"status":  code,
+		"message": errmsg.GetErrMsg(code),
 	})
 }

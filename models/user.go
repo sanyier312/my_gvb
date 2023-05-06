@@ -50,7 +50,7 @@ func CreateUser(data *User) int {
 // GetUser 查询单个用户
 func GetUser(id int) (User, int) {
 	var user User
-	err := db.Select("id").Limit(1).Where("ID = ?", id).First(&user)
+	err := db.Limit(1).Where("ID = ?", id).First(&user).Error
 	if err != nil {
 		return user, errmsg.ERROR
 	}
@@ -111,6 +111,10 @@ func (u *User) BeforeCreate(_ *gorm.DB) (err error) {
 	u.Role = 2
 	return nil
 }
+func (u *User) BeforeUpdate(_ *gorm.DB) (err error) {
+	u.Password = ScryptPw(u.Password)
+	return nil
+}
 
 // ScryptPw 生成密码
 func ScryptPw(password string) string {
@@ -168,7 +172,7 @@ func ChangePassword(id int, data *User) int {
 	var maps = make(map[string]interface{})
 	maps["password"] = ScryptPw(data.Password)
 
-	err = db.Model(&user).Where("id = ?", id).Updates(maps).Error
+	err = db.Model(&user).Where("id = ?", id).Updates(&maps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

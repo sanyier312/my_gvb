@@ -105,7 +105,7 @@ func EditArticle(id int, data *Article) int {
 	maps["content"] = data.Content
 	maps["img"] = data.Img
 
-	err = db.Model(&article).Where("id = ?", id).Updates(maps).Error
+	err = db.Model(&article).Where("id = ?", id).Updates(&maps).Error
 	if err != nil {
 		return errmsg.ERROR
 	}
