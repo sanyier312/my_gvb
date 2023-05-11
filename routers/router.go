@@ -1,12 +1,20 @@
 package routers
 
 import (
+	"github.com/gin-contrib/multitemplate"
 	"github.com/gin-gonic/gin"
 	"my_gvb/api/v1"
 	"my_gvb/middleware"
 	"my_gvb/utils"
 )
 
+// 渲染模板
+func createMyRender() multitemplate.Renderer {
+	p := multitemplate.NewRenderer()
+	p.AddFromFiles("admin", "web/admin/dist/index.html")
+	p.AddFromFiles("front", "web/front/dist/index.html")
+	return p
+}
 func InitRouter() {
 	gin.SetMode(utils.AppMode) //设置运行模式
 
@@ -14,9 +22,11 @@ func InitRouter() {
 	// 设置信任网络 []string
 	// nil 为不计算，避免性能消耗，上线应当设置
 	_ = r.SetTrustedProxies(nil)
-	r.Use(middleware.Logger()) //日志中间件
-	r.Use(gin.Recovery())      //恢复中间件
-	r.Use(middleware.Cors())   //跨域中间件
+
+	r.HTMLRender = createMyRender() //设置渲染模板
+	r.Use(middleware.Logger())      //日志中间件
+	r.Use(gin.Recovery())           //恢复中间件
+	r.Use(middleware.Cors())        //跨域中间件
 
 	//静态资源
 	r.Static("/static", "./web/front/dist/static")
