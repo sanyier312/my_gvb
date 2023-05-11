@@ -11,8 +11,8 @@ import (
 // 渲染模板
 func createMyRender() multitemplate.Renderer {
 	p := multitemplate.NewRenderer()
-	p.AddFromFiles("admin", "web/admin/dist/index.html")
-	p.AddFromFiles("front", "web/front/dist/index.html")
+	p.AddFromFiles("admin", "web/admin/index.html")
+	p.AddFromFiles("front", "web/front/index.html")
 	return p
 }
 func InitRouter() {
