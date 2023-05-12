@@ -29,9 +29,9 @@ func InitRouter() {
 	r.Use(middleware.Cors())        //跨域中间件
 
 	//静态资源
-	r.Static("/static", "./web/front/dist/static")
-	r.Static("/admin", "./web/admin/dist")
-	r.StaticFile("/favicon.ico", "./web/front/dist/favicon.ico")
+	r.Static("/static", "./web/front/static")
+	r.Static("/admin", "./web/admin")
+	r.StaticFile("/favicon.ico", "./web/front/favicon.ico")
 	//前台页面
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(200, "front", nil)
