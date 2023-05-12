@@ -10,7 +10,7 @@ func Cors() gin.HandlerFunc {
 	return cors.New(
 		cors.Config{
 
-			AllowOrigins:     []string{"http://8.140.31.70/"},                                           // 等同于允许所有域名 #AllowAllOrigins:  true
+			AllowOrigins:     []string{"http://8.140.31.70:3000"},                                       // 等同于允许所有域名 #AllowAllOrigins:  true
 			AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},                       // 允许的请求方法
 			AllowHeaders:     []string{"*", "Authorization"},                                            // 允许的请求头
 			ExposeHeaders:    []string{"Content-Length", "text/plain", "Authorization", "Content-Type"}, // 允许的响应头
