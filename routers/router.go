@@ -29,7 +29,7 @@ func InitRouter() {
 	r.Use(middleware.Cors())        //跨域中间件
 
 	//静态资源
-	r.Static("/static", "./web/front/dist/static")
+	r.Static("/front", "./web/front/dist/static")
 	r.Static("/admin", "./web/admin/dist/static")
 	r.StaticFile("/favicon.ico", "./web/front/dist/favicon.ico")
 	//前台页面
