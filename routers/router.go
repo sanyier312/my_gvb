@@ -11,8 +11,8 @@ import (
 // 渲染模板
 func createMyRender() multitemplate.Renderer {
 	p := multitemplate.NewRenderer()
-	p.AddFromFiles("admin", "web/admin/index.html")
-	p.AddFromFiles("front", "web/front/index.html")
+	p.AddFromFiles("admin", "web/admin/dist/index.html")
+	p.AddFromFiles("front", "web/front/dist/index.html")
 	return p
 }
 func InitRouter() {
@@ -29,9 +29,9 @@ func InitRouter() {
 	r.Use(middleware.Cors())        //跨域中间件
 
 	//静态资源
-	r.Static("/static", "./web/front/static")
-	r.Static("/admin", "./web/admin")
-	r.StaticFile("/favicon.ico", "./web/front/favicon.ico")
+	r.Static("/static", "./web/front/dist/static")
+	r.Static("/admin", "./web/admin/dist")
+	r.StaticFile("/favicon.ico", "./web/front/dist/favicon.ico")
 	//前台页面
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(200, "front", nil)
@@ -46,7 +46,7 @@ func InitRouter() {
 	auth.Use(middleware.JwtToken()) //使用中间件
 	{
 		//用户模块的路由接口
-		auth.GET("users", v1.GetUsers)         //查询用户列表
+		auth.GET("admin/users", v1.GetUsers)   //查询用户列表
 		auth.PUT("user/:id", v1.EditUser)      //编辑用户
 		auth.DELETE("user/:id", v1.DeleteUser) //删除用户
 		auth.GET("user/:id", v1.GetUserInfo)   //查询指定用户
