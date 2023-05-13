@@ -30,7 +30,7 @@ func InitRouter() {
 
 	//静态资源
 	r.Static("/static", "./web/front/dist/static")
-	r.Static("/admin", "./web/admin/dist")
+	r.Static("/admin", "./web/admin/dist/static")
 	r.StaticFile("/favicon.ico", "./web/front/dist/favicon.ico")
 	//前台页面
 	r.GET("/", func(c *gin.Context) {
